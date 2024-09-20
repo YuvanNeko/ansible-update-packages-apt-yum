@@ -1,0 +1,17 @@
+---
+- hosts: dietpi
+  become: true
+  gather_facts: true
+  
+  tasks:
+  - name: Refresh repositories
+    command: sudo apt update
+    register: update
+
+  - debug: var=update
+
+  - name: Update packages
+    command: sudo apt upgrade -y
+    register: upgrade
+
+  - debug: var=upgrade

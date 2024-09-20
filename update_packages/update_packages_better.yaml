@@ -1,0 +1,54 @@
+---
+- hosts: dietpi
+  become: true
+  gather_facts: true
+  
+  tasks:
+  - name: Refresh repositories on apt
+    apt:
+      update_cache : true
+    register: update
+    when: ansible_pkg_mgr=="apt"
+
+  - debug: var=update
+
+  - name: Update packages on apt
+    apt:
+      upgrade: true
+    register: upgrade
+    when: ansible_pkg_mgr=="apt"
+
+  - debug: var=upgrade
+
+  - name: Auto clean on apt
+    apt:
+      autoclean: true
+    register: clean
+    when: ansible_pkg_mgr=="apt"
+
+  - debug: var=clean
+  
+  - name: Auto remove on apt
+    apt:
+      autoremove: true
+    register: remove
+    when: ansible_pkg_mgr=="apt"
+
+  - debug: var=remove
+
+  - name: Update on yum
+    yum:
+      name: "*"
+      state: latest
+    register: updateyum
+    when: ansible_pkg_mgr=="yum"
+
+  - debug: var=updateyum
+
+  - name: Autoremove on yum
+    yum:
+      autoremove: true
+    register: removeyum
+    when: ansible_pkg_mgr=="yum"
+
+  - debug: var=removeyum
